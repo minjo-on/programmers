@@ -14,8 +14,7 @@ class Solution {
         int p = currentValue + numbers[depth];
         int m = currentValue - numbers[depth];
         
-        count += dfs(numbers,target,depth+1, p);
-        count += dfs(numbers,target,depth+1, m);
+        count += dfs(numbers,target,depth+1, p) + dfs(numbers,target,depth+1, m);
         
         return count;
     }
