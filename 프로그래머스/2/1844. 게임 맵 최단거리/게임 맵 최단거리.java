@@ -5,15 +5,12 @@ class Solution {
         int h = maps.length;
         int w = maps[0].length;
 
-        int[] dy = new int[]{1,-1,0,0};
-        int[] dx = new int[]{0,0,1,-1};
-
-        boolean[][] visited = new boolean[h][w];
+        int[][] dirs = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
 
         Queue<Node> queue = new LinkedList<>();
 
         queue.add(new Node(0,0,1));
-        visited[0][0] = true;
+        maps[0][0] = 0;
 
         while(!queue.isEmpty()){
             Node current = queue.poll();
@@ -21,12 +18,12 @@ class Solution {
                 return current.count;
             }
 
-            for(int i = 0; i < 4; i++){
-                int newY = current.y + dy[i];
-                int newX = current.x + dx[i];
+            for(int[] dir : dirs){
+                int newY = current.y + dir[0];
+                int newX = current.x + dir[1];
 
-                if(newY >=0 && newY < h && newX >= 0 && newX < w && !visited[newY][newX] && maps[newY][newX] == 1){
-                    visited[newY][newX] = true;
+                if(newY >=0 && newY < h && newX >= 0 && newX < w &&  maps[newY][newX] == 1){
+                    maps[newY][newX] = 0;
                     queue.add(new Node(newY, newX,current.count+1));
                 }
             }
