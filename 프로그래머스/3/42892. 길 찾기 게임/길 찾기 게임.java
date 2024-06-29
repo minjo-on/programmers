@@ -71,8 +71,6 @@ class Solution {
         int[] pre = preResult.stream().mapToInt(i->i).toArray();
         int[] post = postResult.stream().mapToInt(i->i).toArray();
         
-        int[][] answer = {pre,post};
-        
-        return answer;
+        return new int[][]{pre, post};
     }
 }
