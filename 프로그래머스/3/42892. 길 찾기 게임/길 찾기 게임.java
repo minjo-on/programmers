@@ -29,7 +29,7 @@ class Solution {
 		    result.add(root.index);
 		    pre(root.left, result);
 		    pre(root.right, result);
-	    }
+	}
     }
 
     public void post(TreeNode root, List<Integer> result) {
@@ -37,7 +37,7 @@ class Solution {
 		    post(root.left, result);
 		    post(root.right, result);
             result.add(root.index);
-	    }
+	}
     }
         
     public int[][] solution(int[][] nodeinfo) {
