@@ -30,6 +30,7 @@ class Solution {
                 for(int j = 0; j < current.word.length(); j++){
                     if(current.word.charAt(j) != words[i].charAt(j)){
                         c++;
+                        if (c > 1) break;
                     }
                 }
                 if(c == 1){
