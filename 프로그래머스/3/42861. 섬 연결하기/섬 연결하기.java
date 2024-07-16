@@ -7,7 +7,7 @@ class Solution {
         if (parent[idx] == idx) {
             return idx;
         }
-        return parent[idx] = find(parent[idx]);
+        return find(parent[idx]);
     }
 
     private void union(int idx1, int idx2) {
