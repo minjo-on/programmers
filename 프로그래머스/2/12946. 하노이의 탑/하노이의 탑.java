@@ -1,20 +1,24 @@
 import java.util.*;
 
 class Solution {
+    public static List<int[]> moves = new ArrayList<>();
+    
     public int[][] solution(int n) {
         int[][] answer = {};
-        List<int[]> list = new ArrayList<>();
-        hanoi(n,1,3,2,list);
-        return list.toArray(new int[list.size()][]);
+        hanoi(n, 1, 3);
+        return moves.toArray(new int[moves.size()][]);
     }
     
-    private void hanoi(int n, int from, int to, int aux,List<int[]> moves){
+    private void hanoi(int n, int from, int to){
         if(n == 1){
-            moves.add(new int[] {from,to});
+            moves.add(new int[] {from, to});
             return;
         }
-        hanoi(n-1,from,aux,to,moves);
-        moves.add(new int[] {from,to});
-        hanoi(n-1,aux,to,from,moves);
+        
+        int aux = 6 - from - to;
+        
+        hanoi(n - 1, from, aux);
+        moves.add(new int[] {from, to});
+        hanoi(n - 1, aux, to);
     }
 }
