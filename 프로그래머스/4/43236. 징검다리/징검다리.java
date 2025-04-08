@@ -31,11 +31,12 @@ class Solution {
         for(int rock : rocks){
             if(rock - prev < mid){
                 removed++;
+                if(removed > n) return false;
                 continue;
             }
             prev = rock;
         }
         
-        return removed <= n;
+        return true;
     }
 }
