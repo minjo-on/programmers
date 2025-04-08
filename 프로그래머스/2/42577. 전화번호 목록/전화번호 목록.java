@@ -3,11 +3,13 @@ import java.util.stream.*;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-        Set<String> set = new HashSet<>(Arrays.asList(phone_book));
+        Map<String, Integer> map = Arrays.stream(phone_book)
+                .collect(Collectors.toMap(phone -> phone, phone -> 1));
 
-        return set.stream().noneMatch(s ->
-                IntStream.range(1, s.length())
-                        .anyMatch(i -> set.contains(s.substring(0, i)))
-        );
+        return Arrays.stream(phone_book)
+                .noneMatch(phone ->
+                        IntStream.range(1, phone.length())
+                                .anyMatch(i -> map.containsKey(phone.substring(0,i)))
+                );
     }
 }
