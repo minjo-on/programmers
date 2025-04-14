@@ -1,76 +1,60 @@
 import java.util.*;
 
-class TreeNode {
-    int x;
-    int index;
-    TreeNode left;
-    TreeNode right;
-        
-    TreeNode(int x,int index){
-        this.x = x;
-        this.index = index;
-        this.left = null;
-        this.right = null;
-    }
-}
 class Solution {
-    public void insertNode(TreeNode parent, TreeNode node){
-        if(parent.x > node.x){
-            if(parent.left == null) parent.left = node;
-            else insertNode(parent.left, node);
-        }else{
-            if(parent.right == null) parent.right = node;
-            else insertNode(parent.right, node);
+    class TreeNode {
+        int x, index;
+        TreeNode left, right;
+        TreeNode(int x, int index) {
+            this.x = x;
+            this.index = index;
         }
-    }
-    
-    public void pre(TreeNode root, List<Integer> result) {
-        if(root != null){
-		    result.add(root.index);
-		    pre(root.left, result);
-		    pre(root.right, result);
-	}
     }
 
-    public void post(TreeNode root, List<Integer> result) {
-        if(root != null){
-		    post(root.left, result);
-		    post(root.right, result);
-            result.add(root.index);
-	}
+    private void insert(TreeNode parent, TreeNode child) {
+        if (child.x < parent.x) {
+            if (parent.left == null) parent.left = child;
+            else insert(parent.left, child);
+        } else {
+            if (parent.right == null) parent.right = child;
+            else insert(parent.right, child);
+        }
     }
-        
+
+    private void preorder(TreeNode node, List<Integer> list) {
+        if (node == null) return;
+        list.add(node.index);
+        preorder(node.left, list);
+        preorder(node.right, list);
+    }
+
+    private void postorder(TreeNode node, List<Integer> list) {
+        if (node == null) return;
+        postorder(node.left, list);
+        postorder(node.right, list);
+        list.add(node.index);
+    }
+
     public int[][] solution(int[][] nodeinfo) {
-        
-        PriorityQueue<int[]> queue = new PriorityQueue<>((n1, n2) -> {
-            if(n1[1] == n2[1])
-                return Integer.compare(n2[0],n1[0]);
-            else
-                return Integer.compare(n2[1],n1[1]);
-        });
-        
-        for(int i=0;i<nodeinfo.length; i++){
-            queue.offer(new int[]{nodeinfo[i][0],nodeinfo[i][1],i+1});
+        List<int[]> nodes = new ArrayList<>();
+        for (int i = 0; i < nodeinfo.length; i++) {
+            nodes.add(new int[]{nodeinfo[i][0], nodeinfo[i][1], i + 1});
         }
-        
-        int[] rootNode = queue.poll();
-        
-        TreeNode root = new TreeNode(rootNode[0],rootNode[2]);
-        
-        while(!queue.isEmpty()){
-            int[] node = queue.poll();
-            insertNode(root, new TreeNode(node[0],node[2]));
+
+        nodes.sort((a, b) -> b[1] - a[1]);
+
+        TreeNode root = new TreeNode(nodes.get(0)[0], nodes.get(0)[2]);
+        for (int i = 1; i < nodes.size(); i++) {
+            insert(root, new TreeNode(nodes.get(i)[0], nodes.get(i)[2]));
         }
-        
-        List<Integer> preResult = new ArrayList<Integer>();
-        pre(root,preResult);
-        
-        List<Integer> postResult = new ArrayList<Integer>();
-        post(root,postResult);
-        
-        int[] pre = preResult.stream().mapToInt(i->i).toArray();
-        int[] post = postResult.stream().mapToInt(i->i).toArray();
-        
-        return new int[][]{pre, post};
+
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> post = new ArrayList<>();
+        preorder(root, pre);
+        postorder(root, post);
+
+        return new int[][] {
+            pre.stream().mapToInt(i -> i).toArray(),
+            post.stream().mapToInt(i -> i).toArray()
+        };
     }
 }
