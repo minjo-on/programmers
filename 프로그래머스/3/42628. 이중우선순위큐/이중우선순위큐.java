@@ -2,26 +2,26 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
-        for (String s : operations){
-            String[] operation = s.split(" ");
-            char op = operation[0].charAt(0);
-            int value = Integer.parseInt(operation[1]);
-
-            if(op == 'D'){
-                if(priorityQueue.isEmpty()) continue;
-                if(value == -1){
-                    int min = Collections.min(priorityQueue);
-                    priorityQueue.remove(min);
-                }else {
-                    priorityQueue.poll();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        
+        for(String op : operations){
+            String[] parts = op.split(" ");
+            String cmd = parts[0];
+            int value = Integer.parseInt(parts[1]);
+            
+            if(cmd.equals("D")){
+                if(map.isEmpty()) continue;
+                int key = value == 1 ? map.lastKey() : map.firstKey();
+                if (map.get(key) == 1) {
+                    map.remove(key);
+                } else {
+                    map.put(key, map.get(key) - 1);
                 }
-            }else{
-                priorityQueue.add(value);
+            } else {
+                map.put(value, map.getOrDefault(value, 0) + 1);
             }
-
         }
-        if (priorityQueue.isEmpty()) return new int[]{0, 0};
-        return new int[]{priorityQueue.peek(), Collections.min(priorityQueue)};
+        
+        return map.isEmpty() ? new int[]{0, 0} : new int[]{map.lastKey(), map.firstKey()};
     }
 }
