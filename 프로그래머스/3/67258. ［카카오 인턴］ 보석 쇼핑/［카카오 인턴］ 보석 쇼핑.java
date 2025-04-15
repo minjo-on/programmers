@@ -1,35 +1,32 @@
 import java.util.*;
 
-public class Solution {
+class Solution {
     public int[] solution(String[] gems) {
         Set<String> gemTypes = new HashSet<>(Arrays.asList(gems));
-        int totalGemTypes = gemTypes.size();
-
+        int total = gemTypes.size();
+        
         Map<String, Integer> gemCount = new HashMap<>();
-        int start = 0, end = 0;
+        int left = 0, right = 0, minLeft = 0, minRight = 0;
         int minLen = Integer.MAX_VALUE;
-        int minStart = 0, minEnd = 0;
-
-        while (end < gems.length) {
-            gemCount.put(gems[end], gemCount.getOrDefault(gems[end], 0) + 1);
-            end++;
-
-            while (gemCount.size() == totalGemTypes) {
-                if (end - start < minLen) {
-                    minLen = end - start;
-                    minStart = start + 1;  
-                    minEnd = end;          
+        
+        while(right < gems.length) {
+            gemCount.put(gems[right], gemCount.getOrDefault(gems[right], 0) + 1);
+            right++;
+            
+            while(gemCount.size() == total) {
+                if(right - left < minLen) {
+                    minLen = right - left;
+                    minLeft = left + 1;
+                    minRight = right;
                 }
                 
-                String startGem = gems[start];
-                gemCount.put(startGem, gemCount.get(startGem) - 1);
-                if (gemCount.get(startGem) == 0) {
-                    gemCount.remove(startGem);
-                }
-                start++;
+                String start = gems[left];
+                gemCount.put(start, gemCount.get(start) - 1);
+                if(gemCount.get(start) == 0) gemCount.remove(start);
+                left++;
             }
         }
-
-        return new int[] {minStart, minEnd};
+        
+        return new int[]{minLeft, minRight};
     }
 }
