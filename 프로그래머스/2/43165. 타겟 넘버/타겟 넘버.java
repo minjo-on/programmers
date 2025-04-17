@@ -3,19 +3,10 @@ class Solution {
         return dfs(numbers, target, 0, 0);
     }
 
-    private int dfs(int[] numbers, int target, int depth, int currentValue){
-        int count = 0;
+    private int dfs(int[] numbers, int target, int depth, int current){
+        if(depth == numbers.length) return target == current ? 1 : 0;
         
-        if(numbers.length == depth){
-            if(target == currentValue) return 1;
-            return 0;
-        }
-        
-        int p = currentValue + numbers[depth];
-        int m = currentValue - numbers[depth];
-        
-        count += dfs(numbers,target,depth+1, p) + dfs(numbers,target,depth+1, m);
-        
-        return count;
+        return dfs(numbers, target, depth + 1, current + numbers[depth]) + 
+            dfs(numbers, target, depth + 1, current - numbers[depth]);
     }
 }
