@@ -1,15 +1,15 @@
-import java.util.*;
-import java.util.stream.*;
+import java.util.Arrays;
 
 class Solution {
     public boolean solution(String[] phone_book) {
-        Map<String, Integer> map = Arrays.stream(phone_book)
-                .collect(Collectors.toMap(phone -> phone, phone -> 1));
+        Arrays.sort(phone_book);
 
-        return Arrays.stream(phone_book)
-                .noneMatch(phone ->
-                        IntStream.range(1, phone.length())
-                                .anyMatch(i -> map.containsKey(phone.substring(0,i)))
-                );
+        for (int i = 0; i < phone_book.length - 1; i++) {
+            if (phone_book[i + 1].startsWith(phone_book[i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
