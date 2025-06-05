@@ -12,7 +12,7 @@ class Solution {
         this.m = m;
         this.size = info.length;
         
-        dp = new int[size + 1][n][m];
+        dp = new int[size][n][m];
         for(int[][] arr : dp) {
             for(int[] ar : arr) Arrays.fill(ar, -1);
         }
