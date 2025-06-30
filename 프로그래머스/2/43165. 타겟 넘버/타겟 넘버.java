@@ -1,12 +1,26 @@
+import java.util.*;
+
 class Solution {
     public int solution(int[] numbers, int target) {
-        return dfs(numbers, target, 0, 0);
-    }
-
-    private int dfs(int[] numbers, int target, int depth, int current){
-        if(depth == numbers.length) return target == current ? 1 : 0;
+        int answer = 0;
         
-        return dfs(numbers, target, depth + 1, current + numbers[depth]) + 
-            dfs(numbers, target, depth + 1, current - numbers[depth]);
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{0, 0});
+        
+        while(!queue.isEmpty()){
+            int[] current = queue.poll();
+            int sum = current[0];
+            int depth = current[1];
+            
+            if(depth == numbers.length) {
+                if(sum == target) answer++;
+            } else {
+                queue.add(new int[]{sum + numbers[depth], depth + 1});
+                queue.add(new int[]{sum - numbers[depth], depth + 1});   
+            }
+            
+        }
+        
+        return answer;
     }
 }
